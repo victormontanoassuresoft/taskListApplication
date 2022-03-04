@@ -1,0 +1,9 @@
+version: "3.7"
+services:
+  postgres_task:
+    image: postgres:11.6-alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: manager
+      POSTGRES_DB: task
