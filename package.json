@@ -1,0 +1,9 @@
+{
+  "name": "task-list",
+  "version": "1.0.0",
+  "description": "task-list",
+  "main": "index.js",
+  "repository": "https://github.com/victormontanoassuresoft/taskListApplication.git",
+  "author": "Victor Hugo Montano <victor.montano@assuresoft.com>",
+  "license": "MIT"
+}
