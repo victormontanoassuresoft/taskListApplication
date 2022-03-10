@@ -1,9 +1,8 @@
 package com.example.beacon.controller;
 
-import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.beacon.controller.api.request.TaskEntryDto;
+import com.example.beacon.controller.api.response.TaskExitDto;
 import com.example.beacon.persistence.Task;
 import com.example.beacon.service.TaskService;
 
@@ -26,14 +27,13 @@ public class TaskController {
 	@Autowired
 	private TaskService taskService;
 	
+	
 	@PostMapping("/create")
-	private ResponseEntity<Task> createTask(@RequestBody Task task) {
-		Task temporal = taskService.createTask(task);
-		try {
-			return ResponseEntity.created(new URI("/task"+temporal.getTaskId())).body(temporal);	
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-		}
+	private ResponseEntity<Task> createTask(@RequestBody TaskEntryDto taskDTO) {
+		Task task = new Task();
+		BeanUtils.copyProperties(taskDTO, task);
+		Task newTask = taskService.createTask(task);
+		return ResponseEntity.status(HttpStatus.CREATED).body(newTask);
 	}
 	
 	@GetMapping("/list")
@@ -48,8 +48,11 @@ public class TaskController {
 	}
 	
 	@GetMapping("/{taskId}")
-	private ResponseEntity<Optional<Task>> findTaskByID(@PathVariable Long taskId) { 
-		return ResponseEntity.ok(taskService.findTaskByID(taskId));
+	private ResponseEntity<TaskExitDto> findTaskByID(@PathVariable Long taskId) { 
+		Task task = taskService.findTaskByID(taskId).get();
+		TaskExitDto taskExit = new TaskExitDto();
+		BeanUtils.copyProperties(task, taskExit);
+		return ResponseEntity.ok(taskExit);
 	}
 	
 	@PatchMapping("/{taskId}")
