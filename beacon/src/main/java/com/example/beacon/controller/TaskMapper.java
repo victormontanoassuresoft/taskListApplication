@@ -8,7 +8,7 @@ import com.example.beacon.controller.api.response.TaskExitDto;
 import com.example.beacon.controller.api.request.TaskEntryDto;
 import com.example.beacon.persistence.Task;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface TaskMapper {
 	
 	public TaskExitDto entityToDto(Task task);
