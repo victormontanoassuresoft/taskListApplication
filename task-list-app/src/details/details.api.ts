@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios";
 import Api from "../common/api";
 import { Task } from "../common/types";
 
