@@ -9,7 +9,7 @@ function App() {
       <Router>
         <Home path="/"/>
         <Details path="/task/:taskId"/>
-        <Details path="/task"/>
+        <Details path="/task/create" /> 
       </Router>
     </div>
   );
