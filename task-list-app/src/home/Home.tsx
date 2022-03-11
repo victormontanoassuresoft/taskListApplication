@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { RouteComponentProps } from '@reach/router';
+import { navigate, RouteComponentProps } from '@reach/router';
 import { Task } from '../common/types';
 import { getTaskList } from './home.api';
 import { Checkbox, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
@@ -31,6 +31,8 @@ const Home: React.FC<HomeProps> = ({}) => {
       setTasks(listAfterDelete);
     }
 
+    const onEdit = (taskId: number) => navigate(`task/${taskId}`);
+
     return (<>
         <Typography variant="h1" className="home-title">Task List Application</Typography>
         <TableContainer>
@@ -61,7 +63,7 @@ const Home: React.FC<HomeProps> = ({}) => {
                   {task.createdDate}
                 </TableCell>
                 <TableCell>
-                    <IconButton aria-label="edit" color="primary">
+                    <IconButton onClick={(event) => onEdit(task.taskId)} aria-label="edit" color="primary">
                         <Edit/>
                     </IconButton>
                 </TableCell>
