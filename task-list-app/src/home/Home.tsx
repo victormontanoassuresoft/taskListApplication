@@ -5,6 +5,7 @@ import { getTaskList } from './home.api';
 import { Checkbox, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
 import './Home.css';
+import { deleteTask } from '../details/details.api';
 
 interface HomeProps extends RouteComponentProps{
 
@@ -22,6 +23,13 @@ const Home: React.FC<HomeProps> = ({}) => {
         }
         fetchTaskList()
     }, [])
+
+    const onDelete = async (event: React.MouseEvent<HTMLButtonElement>, taskId: number) => {
+      event.stopPropagation();
+      await deleteTask(taskId);
+      const listAfterDelete = await getTaskList();
+      setTasks(listAfterDelete);
+    }
 
     return (<>
         <Typography variant="h1" className="home-title">Task List Application</Typography>
@@ -54,12 +62,12 @@ const Home: React.FC<HomeProps> = ({}) => {
                 </TableCell>
                 <TableCell>
                     <IconButton aria-label="edit" color="primary">
-                        <Edit />
+                        <Edit/>
                     </IconButton>
                 </TableCell>
                 <TableCell>
-                    <IconButton aria-label="delete" color="secondary">
-                        <Delete />
+                    <IconButton onClick={(event) => onDelete(event, task.taskId)} aria-label="delete" color="secondary">
+                        <Delete/>
                     </IconButton>
                 </TableCell>
               </TableRow>
