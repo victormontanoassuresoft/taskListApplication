@@ -2,10 +2,21 @@ import React, { useEffect, useState } from 'react'
 import { navigate, RouteComponentProps } from '@reach/router';
 import { Task } from '../common/types';
 import { getTaskList } from './home.api';
-import { Checkbox, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
-import { Delete, Edit } from '@material-ui/icons';
+import { Checkbox, Fab, IconButton, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
+import { Add, Delete, Edit } from '@material-ui/icons';
 import './Home.css';
 import { deleteTask } from '../details/details.api';
+
+const useStyles = makeStyles({
+  tableRow: {
+    cursor: 'pointer'
+  },
+  fab: {
+    position: 'fixed',
+    bottom: '32px',
+    right: '32px'
+  }
+})
 
 interface HomeProps extends RouteComponentProps{
 
@@ -13,7 +24,8 @@ interface HomeProps extends RouteComponentProps{
 
 const Home: React.FC<HomeProps> = ({}) => {
 
-    const [tasks, setTasks] = useState<Task[] | null>(null)
+  const classes = useStyles();
+  const [tasks, setTasks] = useState<Task[] | null>(null)
 
     useEffect(() => {
         const fetchTaskList = async () => {
@@ -63,7 +75,7 @@ const Home: React.FC<HomeProps> = ({}) => {
                   {task.createdDate}
                 </TableCell>
                 <TableCell>
-                    <IconButton onClick={(event) => onEdit(task.taskId)} aria-label="edit" color="primary">
+                    <IconButton onClick={() => onEdit(task.taskId)} aria-label="edit" color="primary">
                         <Edit/>
                     </IconButton>
                 </TableCell>
@@ -77,6 +89,9 @@ const Home: React.FC<HomeProps> = ({}) => {
           </TableBody>
         </Table>
         </TableContainer>
+        <Fab onClick={() => navigate('/task/create')} className={classes.fab} color="primary" aria-label="add">
+          <Add />
+        </Fab>
       </>);
 }
 
