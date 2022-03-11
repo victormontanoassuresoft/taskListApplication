@@ -31,6 +31,7 @@ public class Task {
     private Date dueDate;
     
     @CreationTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createdDate;
     
 }
