@@ -11,6 +11,11 @@ const updateTask = async (task: Task): Promise<Task> => {
   return data
 }
 
+const updateCompletedTask = async (taskId: number): Promise<Task> => {
+  const { data } = await Api.patch<Task, Task>(`/${taskId}/complete`);
+  return data
+}
+
 const createTask = async (task: Task): Promise<Task> => {
   const { data } = await Api.post<Task, Task>(`/create`, task);
   return data;
@@ -25,5 +30,6 @@ export {
     getTask,
     updateTask,
     createTask,
-    deleteTask
+    deleteTask,
+    updateCompletedTask
 }
