@@ -44,6 +44,7 @@ const Details: React.FC<DetailsProps> = ({taskId}) => {
         }
         // check whether to update or create new
         if(taskId) {
+          task.taskId = taskId;
           await updateTask(task)
       
         } else {
@@ -82,7 +83,16 @@ const Details: React.FC<DetailsProps> = ({taskId}) => {
         <form onSubmit={onFormSubmit}>
           <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
             <TextField onChange={onFormValueChange} className={classes.spacing} name="title" value={task?.title || ''} label="Title" placeholder="Title"/>
-            <TextField onChange={onFormValueChange} className={classes.spacing} type="date" name="dueDate" label="Due Date" />
+            <TextField
+              id="dueDate"
+              label="Due Date"
+              name="dueDate"
+              type="date"
+              onChange={onFormValueChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
             <p>Completed</p>
             <Checkbox onChange={onFormValueChange} className={classes.spacing} name="completed" checked={task?.completed || false}/>
             <Button className={classes.spacing} type="submit" variant="contained" color="primary">Submit</Button>
