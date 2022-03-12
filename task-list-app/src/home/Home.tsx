@@ -5,7 +5,7 @@ import { getTaskList } from './home.api';
 import { Checkbox, Fab, IconButton, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
 import { Add, Delete, Edit } from '@material-ui/icons';
 import './Home.css';
-import { deleteTask } from '../details/details.api';
+import { deleteTask, updateCompletedTask, updateTask } from '../details/details.api';
 
 const useStyles = makeStyles({
   tableRow: {
@@ -43,6 +43,13 @@ const Home: React.FC<HomeProps> = ({}) => {
       setTasks(listAfterDelete);
     }
 
+    const onCompleted = async (event: React.MouseEvent<HTMLButtonElement>, taskId: number) => {
+      event.stopPropagation();
+      await updateCompletedTask(taskId);
+      const listAfterUpdate = await getTaskList();
+      setTasks(listAfterUpdate);
+    }
+
     const onEdit = (taskId: number) => navigate(`task/${taskId}`);
 
     return (<>
@@ -63,7 +70,9 @@ const Home: React.FC<HomeProps> = ({}) => {
             {tasks && tasks.map(task => (
               <TableRow key={task.taskId}>
                 <TableCell>
-                    <Checkbox checked={task.completed} />
+                    <IconButton onClick={(event) => onCompleted(event, task.taskId)} aria-label="edit" color="primary">
+                      <Checkbox checked={task.completed}/>
+                    </IconButton>
                 </TableCell>
                 <TableCell>
                   {task.title}
