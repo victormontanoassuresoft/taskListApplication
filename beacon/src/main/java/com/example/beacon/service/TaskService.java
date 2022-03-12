@@ -35,10 +35,10 @@ public class TaskService {
 		return taskRepository.save(task);
 	}
 	
-	public Task updateComplete (Long taskId, Boolean completed) {
+	public Task updateComplete (Long taskId) {
 		Optional<Task> optionalTaskToUpdate = taskRepository.findById(taskId);
 		Task taskToUpdate = optionalTaskToUpdate.get();
-		taskToUpdate.setCompleted(completed);
+		taskToUpdate.setCompleted(!taskToUpdate.getCompleted());
 		return taskRepository.save(taskToUpdate);
 	}
 	

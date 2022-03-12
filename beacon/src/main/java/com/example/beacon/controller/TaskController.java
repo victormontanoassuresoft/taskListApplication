@@ -70,7 +70,7 @@ public class TaskController {
 	}
 	
 	@PatchMapping("/{taskId}/complete")
-	private ResponseEntity<Task> updateComplete(@PathVariable Long taskId, @RequestBody Boolean completed) {
-		return ResponseEntity.ok(taskService.updateComplete(taskId, completed));
+	private ResponseEntity<Task> updateComplete(@PathVariable Long taskId) {
+		return ResponseEntity.ok(taskService.updateComplete(taskId));
 	}
 }
