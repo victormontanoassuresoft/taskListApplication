@@ -1,7 +1,7 @@
 import React, { FormEventHandler, useEffect, useState } from 'react'
 import { RouteComponentProps, useNavigate } from '@reach/router';
 import { Task } from '../common/types';
-import { createTask, deleteTask, getTask, updateTask } from './details.api';
+import { createTask, deleteTask, getTask, updateCompletedTask, updateTask } from './details.api';
 import { Box, Button, Checkbox, makeStyles, TextField, Typography } from '@material-ui/core';
 
 interface DetailsProps extends RouteComponentProps {
@@ -74,8 +74,6 @@ const Details: React.FC<DetailsProps> = ({taskId}) => {
             } as unknown as Task
           }
         })
-        console.log(e.target.value)
-        console.log(e.target.name)
     }
 
     return (<div>
@@ -94,7 +92,7 @@ const Details: React.FC<DetailsProps> = ({taskId}) => {
               }}
             />
             <p>Completed</p>
-            <Checkbox onChange={onFormValueChange} className={classes.spacing} name="completed" checked={task?.completed || false}/>
+            <Checkbox disabled={!taskId} onChange={onFormValueChange} className={classes.spacing} name="completed" checked={task?.completed || false}/>
             <Button className={classes.spacing} type="submit" variant="contained" color="primary">Submit</Button>
             <Button disabled={!taskId} variant="outlined" color="secondary" onClick={onDelete}>Delete</Button>
           </Box>
