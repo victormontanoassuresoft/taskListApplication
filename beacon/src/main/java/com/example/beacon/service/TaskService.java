@@ -7,13 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.beacon.persistence.Task;
+import com.example.beacon.persistence.Timezone;
 import com.example.beacon.persistence.repository.TaskRepository;
+import com.example.beacon.persistence.repository.TimezoneRepository;
 
 @Service
 public class TaskService {
 	
 	@Autowired
 	private TaskRepository taskRepository;
+	
+	@Autowired
+	private TimezoneRepository timezoneRepository;
 	
 	public Task createTask (Task task) {
 		return taskRepository.save(task);
@@ -47,6 +52,10 @@ public class TaskService {
 		Task taskToUpdate = optionalTaskToUpdate.get();
 		taskToUpdate.setTitle(title);
 		return taskRepository.save(taskToUpdate);
+	}
+	
+	public Timezone getTimeZone (String lat, String lng){
+		return timezoneRepository.getTimezone(lat, lng);
 	}
 
 }
