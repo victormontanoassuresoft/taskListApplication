@@ -46,9 +46,9 @@ public class TaskController {
 		return ResponseEntity.ok(taskService.listAllTask());
 	}
 	
-	@GetMapping("/timezone")
-	private ResponseEntity<Timezone> getTimezone(@RequestBody TimezoneDto timezoneDTO) {
-		return ResponseEntity.ok(taskService.getTimeZone(timezoneDTO.getLat(), timezoneDTO.getLng()));
+	@GetMapping("/timezone/{lat}/{lng}")
+	private ResponseEntity<Timezone> getTimezone(@PathVariable String lat, @PathVariable String lng) {
+		return ResponseEntity.ok(taskService.getTimeZone(lat, lng));
 	}
 	
 	@DeleteMapping("/{taskId}")
