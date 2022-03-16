@@ -11,7 +11,7 @@ function App() {
         <Home path="/"/>
         <Details path="/task/:taskId"/>
         <Details path="/task/create" /> 
-        <Timezone path="/timezone/:lat/:lng" />
+        <Timezone path="/timezone/:coordinate" />
         <Timezone path="/timezone" />
       </Router>
     </div>
