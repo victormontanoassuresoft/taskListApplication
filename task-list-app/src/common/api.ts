@@ -13,10 +13,6 @@ class Api {
     return await Api.axiosInstance.get<ResponseType>(url)
   }
 
-  static async getTimezone<ResponseType, DataType>(url: string, data?: DataType) {
-    return await Api.axiosInstance.get<ResponseType>(url, data);
-  }
-
   static async post<ResponseType, DataType>(url: string, data?: DataType) {
     return Api.axiosInstance.post<DataType,AxiosResponse<ResponseType>>(url, data);
   }
