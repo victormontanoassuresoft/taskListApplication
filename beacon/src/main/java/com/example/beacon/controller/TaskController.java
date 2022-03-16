@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.beacon.controller.api.request.TaskEntryDto;
+import com.example.beacon.controller.api.request.TimezoneDto;
 import com.example.beacon.controller.api.response.TaskExitDto;
 import com.example.beacon.persistence.Task;
+import com.example.beacon.persistence.Timezone;
 import com.example.beacon.service.TaskService;
 
 @RestController
@@ -42,6 +44,11 @@ public class TaskController {
 	@GetMapping("/list")
 	private ResponseEntity<List<Task>> listAllTask() {
 		return ResponseEntity.ok(taskService.listAllTask());
+	}
+	
+	@GetMapping("/timezone")
+	private ResponseEntity<Timezone> getTimezone(@RequestBody TimezoneDto timezoneDTO) {
+		return ResponseEntity.ok(taskService.getTimeZone(timezoneDTO.getLat(), timezoneDTO.getLng()));
 	}
 	
 	@DeleteMapping("/{taskId}")
