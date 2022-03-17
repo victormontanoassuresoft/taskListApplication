@@ -6,10 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.beacon.integration.timezone.TimezoneRepository;
 import com.example.beacon.persistence.Task;
 import com.example.beacon.persistence.Timezone;
 import com.example.beacon.persistence.repository.TaskRepository;
-import com.example.beacon.persistence.repository.TimezoneRepository;
 
 @Service
 public class TaskService {
