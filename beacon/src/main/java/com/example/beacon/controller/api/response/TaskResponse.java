@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class TaskExitDto {
+public class TaskResponse {
     
     private String title;
     private Boolean completed;
