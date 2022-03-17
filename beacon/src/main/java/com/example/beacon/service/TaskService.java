@@ -1,5 +1,6 @@
 package com.example.beacon.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,15 +24,18 @@ public class TaskService {
 	@Autowired
 	private TimezoneRepository timezoneRepository;
 	
-	public Task createTask (CreateTaskRequest request) {
+	public TaskResponse createTask (CreateTaskRequest request) {
 		Task task = new Task();
 		BeanUtils.copyProperties(request, task);
-		taskRepository.save( task );				
-		return taskRepository.save(task);
+		TaskResponse response = new TaskResponse();
+		BeanUtils.copyProperties(taskRepository.save(task), response);
+		return response;
 	}
 	
-	public List<Task> listAllTask (){
-		return taskRepository.findAll();
+	public List<TaskResponse> listAllTask (){
+		List<TaskResponse> response = new ArrayList<TaskResponse>();
+		BeanUtils.copyProperties(taskRepository.findAll(), response);
+		return response;
 	}
 	
 	public void deleteTask (Long taskId) {
@@ -45,23 +49,29 @@ public class TaskService {
 		return taskExit;
 	}
 	
-	public Task updateTask (Long taskId, Task task) {
+	public TaskResponse updateTask (Long taskId, Task task) {
 		task.setTaskId(taskId);
-		return taskRepository.save(task);
+		TaskResponse response = new TaskResponse();
+		BeanUtils.copyProperties(taskRepository.save(task), response);
+		return response;
 	}
 	
-	public Task updateComplete (Long taskId) {
+	public TaskResponse updateComplete (Long taskId) {
 		Optional<Task> optionalTaskToUpdate = taskRepository.findById(taskId);
 		Task taskToUpdate = optionalTaskToUpdate.get();
 		taskToUpdate.setCompleted(!taskToUpdate.getCompleted());
-		return taskRepository.save(taskToUpdate);
+		TaskResponse response = new TaskResponse();
+		BeanUtils.copyProperties(taskRepository.save(taskToUpdate), response);
+		return response;
 	}
 	
-	public Task updateTitle (Long taskId, String title) {
+	public TaskResponse updateTitle (Long taskId, String title) {
 		Optional<Task> optionalTaskToUpdate = taskRepository.findById(taskId);
 		Task taskToUpdate = optionalTaskToUpdate.get();
 		taskToUpdate.setTitle(title);
-		return taskRepository.save(taskToUpdate);
+		TaskResponse response = new TaskResponse();
+		BeanUtils.copyProperties(taskRepository.save(taskToUpdate), response);
+		return response;
 	}
 	
 	public Timezone getTimeZone (String coordinate){

@@ -32,13 +32,13 @@ public class TaskController {
 	
 	
 	@PostMapping("/create")
-	private ResponseEntity<Task> createTask(@RequestBody CreateTaskRequest request) {
-		Task response = taskService.createTask(request);
+	private ResponseEntity<TaskResponse> createTask(@RequestBody CreateTaskRequest request) {
+		TaskResponse response = taskService.createTask(request);
 		return ResponseEntity.status(HttpStatus.CREATED).body( response );
 	}
 	
 	@GetMapping("/list")
-	private ResponseEntity<List<Task>> listAllTask() {
+	private ResponseEntity<List<TaskResponse>> listAllTask() {
 		return ResponseEntity.ok(taskService.listAllTask());
 	}
 	
@@ -60,17 +60,17 @@ public class TaskController {
 	}
 	
 	@PatchMapping("/{taskId}")
-	private ResponseEntity<Task> updateTask(@PathVariable Long taskId, @RequestBody Task task) { 	
+	private ResponseEntity<TaskResponse> updateTask(@PathVariable Long taskId, @RequestBody Task task) { 	
 		return ResponseEntity.ok(taskService.updateTask(taskId, task));
 	}
 	
 	@PatchMapping("/{taskId}/title")
-	private ResponseEntity<Task> updateTitle(@PathVariable Long taskId, @RequestBody String title) {
+	private ResponseEntity<TaskResponse> updateTitle(@PathVariable Long taskId, @RequestBody String title) {
 		return ResponseEntity.ok(taskService.updateTitle(taskId, title));
 	}
 	
 	@PatchMapping("/{taskId}/complete")
-	private ResponseEntity<Task> updateComplete(@PathVariable Long taskId) {
+	private ResponseEntity<TaskResponse> updateComplete(@PathVariable Long taskId) {
 		return ResponseEntity.ok(taskService.updateComplete(taskId));
 	}
 }
