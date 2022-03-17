@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "timezone.api.urls",
+    "type": "java.lang.String",
+    "description": "A description for 'timezone.api.urls'"
+  },
+  {
+    "name": "timezone.api.token",
+    "type": "java.lang.String",
+    "description": "A description for 'timezone.api.token'"
+  }
+]}
