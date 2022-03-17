@@ -2,7 +2,6 @@ package com.example.beacon.controller;
 
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.example.beacon.controller.api.request.TaskEntryDto;
-import com.example.beacon.controller.api.response.TaskExitDto;
+import com.example.beacon.controller.api.request.CreateTaskRequest;
+import com.example.beacon.controller.api.response.TaskResponse;
 import com.example.beacon.persistence.Task;
 import com.example.beacon.persistence.Timezone;
 import com.example.beacon.service.TaskService;
@@ -33,11 +32,9 @@ public class TaskController {
 	
 	
 	@PostMapping("/create")
-	private ResponseEntity<Task> createTask(@RequestBody TaskEntryDto taskDTO) {
-		Task task = new Task();
-		BeanUtils.copyProperties(taskDTO, task);
-		Task newTask = taskService.createTask(task);
-		return ResponseEntity.status(HttpStatus.CREATED).body(newTask);
+	private ResponseEntity<Task> createTask(@RequestBody CreateTaskRequest request) {
+		Task response = taskService.createTask(request);
+		return ResponseEntity.status(HttpStatus.CREATED).body( response );
 	}
 	
 	@GetMapping("/list")
@@ -47,8 +44,7 @@ public class TaskController {
 	
 	@GetMapping("/timezone/{coordinate}")
 	private ResponseEntity<Timezone> getTimezone(@PathVariable String coordinate) {
-		String[] coordinates = coordinate.split(",");
-		return ResponseEntity.ok(taskService.getTimeZone(coordinates[0], coordinates[1]));
+		return ResponseEntity.ok(taskService.getTimeZone(coordinate));
 	}
 	
 	@DeleteMapping("/{taskId}")
@@ -58,17 +54,14 @@ public class TaskController {
 	}
 	
 	@GetMapping("/{taskId}")
-	private ResponseEntity<TaskExitDto> findTaskByID(@PathVariable Long taskId) { 
-		Task task = taskService.findTaskByID(taskId).get();
-		TaskExitDto taskExit = new TaskExitDto();
-		BeanUtils.copyProperties(task, taskExit);
-		return ResponseEntity.ok(taskExit);
+	private ResponseEntity<TaskResponse> findTaskByID(@PathVariable Long taskId) { 
+		TaskResponse task = taskService.findTaskByID(taskId);
+		return ResponseEntity.ok(task);
 	}
 	
 	@PatchMapping("/{taskId}")
-	private ResponseEntity<Task> updateTask(@PathVariable Long taskId, @RequestBody Task task) { 
-		task.setTaskId(taskId);
-		return ResponseEntity.ok(taskService.updateTask(task));
+	private ResponseEntity<Task> updateTask(@PathVariable Long taskId, @RequestBody Task task) { 	
+		return ResponseEntity.ok(taskService.updateTask(taskId, task));
 	}
 	
 	@PatchMapping("/{taskId}/title")

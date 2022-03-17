@@ -3,13 +3,16 @@ package com.example.beacon.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.beacon.controller.api.request.CreateTaskRequest;
 import com.example.beacon.integration.timezone.TimezoneRepository;
 import com.example.beacon.persistence.Task;
 import com.example.beacon.persistence.Timezone;
 import com.example.beacon.persistence.repository.TaskRepository;
+import com.example.beacon.controller.api.response.TaskResponse;
 
 @Service
 public class TaskService {
@@ -20,7 +23,10 @@ public class TaskService {
 	@Autowired
 	private TimezoneRepository timezoneRepository;
 	
-	public Task createTask (Task task) {
+	public Task createTask (CreateTaskRequest request) {
+		Task task = new Task();
+		BeanUtils.copyProperties(request, task);
+		taskRepository.save( task );				
 		return taskRepository.save(task);
 	}
 	
@@ -32,11 +38,15 @@ public class TaskService {
 		taskRepository.deleteById(taskId);;
 	}
 	
-	public Optional<Task> findTaskByID (Long taskId) {
-		return taskRepository.findById(taskId);
+	public TaskResponse findTaskByID (Long taskId) {
+		Task task = taskRepository.findById(taskId).get();
+		TaskResponse taskExit = new TaskResponse();
+		BeanUtils.copyProperties(task, taskExit);
+		return taskExit;
 	}
 	
-	public Task updateTask (Task task) {
+	public Task updateTask (Long taskId, Task task) {
+		task.setTaskId(taskId);
 		return taskRepository.save(task);
 	}
 	
@@ -54,8 +64,9 @@ public class TaskService {
 		return taskRepository.save(taskToUpdate);
 	}
 	
-	public Timezone getTimeZone (String lat, String lng){
-		return timezoneRepository.getTimezone(lat, lng);
+	public Timezone getTimeZone (String coordinate){
+		String[] coordinates = coordinate.split(",");
+		return timezoneRepository.getTimezone(coordinates[0], coordinates[1]);
 	}
 
 }
