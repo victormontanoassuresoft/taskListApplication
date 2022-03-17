@@ -5,7 +5,7 @@ import { getTaskList } from './home.api';
 import { Checkbox, Fab, IconButton, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
 import { Add, Delete, Edit } from '@material-ui/icons';
 import './Home.css';
-import { deleteTask, updateCompletedTask, updateTask } from '../details/details.api';
+import { deleteTask, updateCompletedTask } from '../details/details.api';
 
 const useStyles = makeStyles({
   tableRow: {
