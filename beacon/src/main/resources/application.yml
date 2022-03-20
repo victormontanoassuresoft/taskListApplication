@@ -1,4 +1,0 @@
-timezone:
-  api:
-    urls: http://api.timezonedb.com/v2.1/
-    token: VAQC6KNHS0BR
