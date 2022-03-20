@@ -1,13 +1,21 @@
 package com.example.beacon.integration.timezone;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.beacon.persistence.Timezone;
 
-@FeignClient(value="getTimezone", url="http://api.timezonedb.com/v2.1/get-time-zone?key=VAQC6KNHS0BR&format=json&by=position&lat=-17.414&lng=-66.1653")
+
+@FeignClient(name="timezone", url="http://api.timezonedb.com/v2.1")
 public interface TimezoneRepository {
 	
-	@GetMapping()
+	@Value("${timezone.api.token}")
+	public String token;
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/get-time-zone?key=" + token + "&format=json&by=position&")
 	Timezone getTimezone(string lat, string lng);
+
 }
