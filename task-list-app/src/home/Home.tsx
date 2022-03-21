@@ -6,6 +6,7 @@ import { Checkbox, Fab, IconButton, makeStyles, Table, TableBody, TableCell, Tab
 import { Add, Delete, Edit } from '@material-ui/icons';
 import './Home.css';
 import { deleteTask, updateCompletedTask } from '../details/details.api';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles({
   tableRow: {
@@ -29,9 +30,7 @@ const Home: React.FC<HomeProps> = ({}) => {
 
     useEffect(() => {
         const fetchTaskList = async () => {
-            const taskList = await getTaskList()
-            setTasks(taskList)
-            console.log(taskList)
+            this.props.dispatch({type: 'GETLIST'});
         }
         fetchTaskList()
     }, [])
@@ -39,15 +38,13 @@ const Home: React.FC<HomeProps> = ({}) => {
     const onDelete = async (event: React.MouseEvent<HTMLButtonElement>, taskId: number) => {
       event.stopPropagation();
       await deleteTask(taskId);
-      const listAfterDelete = await getTaskList();
-      setTasks(listAfterDelete);
+      this.props.dispatch({type: 'GETLIST'});
     }
 
     const onCompleted = async (event: React.MouseEvent<HTMLButtonElement>, taskId: number) => {
       event.stopPropagation();
       await updateCompletedTask(taskId);
-      const listAfterUpdate = await getTaskList();
-      setTasks(listAfterUpdate);
+      this.props.dispatch({type: 'GETLIST'});
     }
 
     const onEdit = (taskId: number) => navigate(`task/${taskId}`);
@@ -67,7 +64,7 @@ const Home: React.FC<HomeProps> = ({}) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tasks && tasks.map(task => (
+            {this.props.tasks && this.props.tasks.map(task => (
               <TableRow key={task.taskId}>
                 <TableCell>
                     <IconButton onClick={(event) => onCompleted(event, task.taskId)} aria-label="edit" color="primary">
@@ -104,4 +101,7 @@ const Home: React.FC<HomeProps> = ({}) => {
       </>);
 }
 
-export default Home
+const mapStateToProps = (state) => ({
+  tasks: state.tasks
+})
+export default connect(mapStateToProps)(Home);
